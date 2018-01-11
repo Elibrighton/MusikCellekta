@@ -1,0 +1,168 @@
+﻿@model MusikCellekta.Models.CellektaViewModels.SelectData
+
+@{
+    ViewData["Title"] = "Select";
+}
+
+<h2>Select</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SongSelection.Artist)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SongSelection.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SongSelection.Bpm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SongSelection.Key)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SongSelection.Intensity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SongSelection.Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SongSelection.Genre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SongSelection.Disc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SongSelection.Track)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => model.SongSelection.Artist)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.SongSelection.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.SongSelection.Bpm)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.SongSelection.Key)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.SongSelection.Intensity)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.SongSelection.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.SongSelection.Genre)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.SongSelection.Disc)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.SongSelection.Track)
+                </td>
+                <td>
+                </td>
+            </tr>
+    </tbody>
+</table>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SongSelection.Artist)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SongSelection.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SongSelection.Bpm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SongSelection.Key)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SongSelection.Intensity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SongSelection.Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SongSelection.Genre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SongSelection.Disc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SongSelection.Track)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.MatchingSongs)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Artist)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Bpm)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Key)
+                </td>
+                <td>
+                    @if (item.IsYearMatch)
+                    {
+                        <b>@Html.DisplayFor(modelItem => item.Intensity)</b>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Intensity)
+                    }
+                </td>
+                <td>
+                    @if (item.IsYearMatch)
+                    {
+                        <b>@Html.DisplayFor(modelItem => item.Year)</b>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Year)
+                    }
+                </td>
+                <td>
+                    @if (item.IsGenreMatch)
+                    {
+                        <b>@Html.DisplayFor(modelItem => item.Genre)</b>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Genre)
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Disc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Track)
+                </td>
+                <td>
+                    <a asp-action="Select" asp-route-id="@item.ID">Select</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

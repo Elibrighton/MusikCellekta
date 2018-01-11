@@ -20,8 +20,8 @@ namespace MusikCellekta.Data
 
             var songs = new Song[]
             {
-                new Song{Artist = "Snap!", Title = "The Power (LQ)", Bpm = 109, Key = "10A", Intensity = 7, Year = 1990, Disc = "Dance 1", Track = 1},
-                new Song{Artist = "C+C Music Factory", Title = "Gonna Make You Sweat (Everybody Dance Now) (LQ)", Bpm = 115, Key = "3A", Intensity = 7, Year = 1990, Disc = "Dance 1", Track = 2}
+                new Song{Artist = "Snap!", Title = "The Power (LQ)", Bpm = 109, Key = "10A", Intensity = 7, Year = 1990, Disc = "Dance 1", Track = 1, Genre = "Dance"},
+                new Song{Artist = "C+C Music Factory", Title = "Gonna Make You Sweat (Everybody Dance Now) (LQ)", Bpm = 115, Key = "3A", Intensity = 7, Year = 1990, Disc = "Dance 1", Track = 2, Genre = "Dance"}
             };
 
             foreach (Song s in songs)

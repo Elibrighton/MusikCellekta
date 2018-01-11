@@ -16,5 +16,6 @@ namespace MusikCellekta.Models
         public int Year { get; set; }
         public string Disc { get; set; }
         public int Track { get; set; }
+        public string Genre { get; set; }
     }
 }

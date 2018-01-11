@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MusikCellekta.Data;
 using MusikCellekta.Models;
+using MusikCellekta.Models.CellektaViewModels;
 
 namespace MusikCellekta.Controllers
 {
@@ -54,7 +55,7 @@ namespace MusikCellekta.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Artist,Title,Bpm,Key,Intensity,Year,Disc,Track")] Song song)
+        public async Task<IActionResult> Create([Bind("ID,Artist,Title,Bpm,Key,Intensity,Year,Disc,Track,Genre")] Song song)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +87,7 @@ namespace MusikCellekta.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Artist,Title,Bpm,Key,Intensity,Year,Disc,Track")] Song song)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Artist,Title,Bpm,Key,Intensity,Year,Disc,Track,Genre")] Song song)
         {
             if (id != song.ID)
             {
@@ -148,6 +149,90 @@ namespace MusikCellekta.Controllers
         private bool SongExists(int id)
         {
             return _context.Songs.Any(e => e.ID == id);
+        }
+        
+        // GET: Songs/Select/5
+        public async Task<IActionResult> Select(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var selectData = new SelectData();
+            selectData.SongSelection = await _context.Songs.SingleOrDefaultAsync(m => m.ID == id);
+
+            if (selectData.SongSelection == null)
+            {
+                return NotFound();
+            }
+
+            selectData.MatchingSongs = new List<SongData>();
+            var songs = await _context.Songs.ToListAsync();
+
+            foreach (var song in songs)
+            {
+                if (song.ID != selectData.SongSelection.ID)
+                {
+                    if (IsBpmInRange(song.Bpm, selectData.SongSelection.Bpm))
+                    {
+                        var songData = new SongData
+                        {
+                            ID = song.ID,
+                            Artist = song.Artist,
+                            Bpm = song.Bpm,
+                            Disc = song.Disc,
+                            Genre = song.Genre,
+                            Intensity = song.Intensity,
+                            Key = song.Key,
+                            Title = song.Title,
+                            Track = song.Track,
+                            Year = song.Year
+                        };
+
+                        songData.IsGenreMatch = IsGenreMatch(song.Genre, selectData.SongSelection.Genre);
+                        songData.IsYearMatch = IsYearMatch(song.Year, selectData.SongSelection.Year);
+                        songData.IsIntensityMatch = IsIntensityMatch(song.Intensity, selectData.SongSelection.Intensity);
+
+                        selectData.MatchingSongs.Add(songData);
+                    }
+                }
+            }
+
+            return View(selectData);
+        }
+
+        public bool IsIntensityMatch(int matchingSongIntensity, int selectedSongIntensity)
+        {
+            return matchingSongIntensity == selectedSongIntensity ||
+                matchingSongIntensity == selectedSongIntensity - 1 ||
+                matchingSongIntensity == selectedSongIntensity + 1;
+        }
+
+        public bool IsYearMatch(int matchingSongYear, int selectedSongYear)
+        {
+            return matchingSongYear == selectedSongYear ||
+                matchingSongYear == selectedSongYear - 1 ||
+                matchingSongYear == selectedSongYear + 1;
+        }
+
+        public bool IsGenreMatch(string matchingSongGenre, string selectedSongGenre)
+        {
+            return matchingSongGenre == selectedSongGenre;
+        }
+
+        private bool IsBpmInRange(int matchingSongBpm, int selectedSongBpm)
+        {
+            var upperBpm = selectedSongBpm + 3;
+            var lowerBpm = selectedSongBpm - 1;
+            var upperDoubleBpm = upperBpm * 2;
+            var lowerDoubleBpm = lowerBpm * 2;
+            var upperHalfBpm = upperBpm / 2;
+            var lowerHalfBpm = lowerBpm / 2;
+
+            return matchingSongBpm <= upperBpm && matchingSongBpm >= lowerBpm ||
+                matchingSongBpm <= upperDoubleBpm && matchingSongBpm >= lowerDoubleBpm ||
+                matchingSongBpm <= upperHalfBpm && matchingSongBpm >= lowerHalfBpm;
         }
     }
 }
