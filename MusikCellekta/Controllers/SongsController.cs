@@ -193,6 +193,7 @@ namespace MusikCellekta.Controllers
                         songData.IsGenreMatch = IsGenreMatch(song.Genre, selectData.SongSelection.Genre);
                         songData.IsYearMatch = IsYearMatch(song.Year, selectData.SongSelection.Year);
                         songData.IsIntensityMatch = IsIntensityMatch(song.Intensity, selectData.SongSelection.Intensity);
+                        songData.IsKeyMatch = IsKeyMatch(song.Key, selectData.SongSelection.Key);
 
                         selectData.MatchingSongs.Add(songData);
                     }
@@ -200,6 +201,61 @@ namespace MusikCellekta.Controllers
             }
 
             return View(selectData);
+        }
+
+        public bool IsKeyMatch(string matchingSongKey, string selectedSongKey)
+        {
+            var selectedSongTrailingKey = GetTrailingKey(selectedSongKey);
+            var matchingSongLeadingKey = GetLeadingKey(matchingSongKey);
+
+            var keyLetter = selectedSongTrailingKey.Contains("A") ? "A" : "B";
+
+            var keyNumber = Convert.ToInt32(selectedSongTrailingKey.Replace("A", "").Replace("B", ""));
+
+            var upperKeyNumber = keyNumber == 12 ? 1 : keyNumber + 1;
+            var lowerKeyNumber = keyNumber == 1 ? 12 : keyNumber - 1;
+
+            var upperKey = String.Concat(upperKeyNumber, keyLetter);
+            var lowerKey = String.Concat(lowerKeyNumber, keyLetter);
+
+            var otherKey = String.Concat(keyNumber, keyLetter == "A" ? "B" : "A");
+
+            return matchingSongLeadingKey == selectedSongTrailingKey ||
+                matchingSongLeadingKey == upperKey ||
+                matchingSongLeadingKey == lowerKey ||
+                matchingSongLeadingKey == otherKey;
+        }
+
+        private string GetLeadingKey(string matchingSongKey)
+        {
+            var leadingKey = string.Empty;
+
+            if (matchingSongKey.Contains("_"))
+            {
+                leadingKey = matchingSongKey.Substring(0, matchingSongKey.IndexOf('_'));
+            }
+            else
+            {
+                leadingKey = matchingSongKey;
+            }
+
+            return leadingKey;
+        }
+
+        public string GetTrailingKey(string selectedSongKey)
+        {
+            var trailingKey = string.Empty;
+
+            if (selectedSongKey.Contains("_"))
+            {
+                trailingKey = selectedSongKey.Substring(selectedSongKey.IndexOf('_') + 1);
+            }
+            else
+            {
+                trailingKey = selectedSongKey;
+            }
+
+            return trailingKey;
         }
 
         public bool IsIntensityMatch(int matchingSongIntensity, int selectedSongIntensity)

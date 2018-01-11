@@ -121,7 +121,14 @@
                     @Html.DisplayFor(modelItem => item.Bpm)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Key)
+                    @if (item.IsKeyMatch)
+                    {
+                        <b>@Html.DisplayFor(modelItem => item.Key)</b>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Key)
+                    }
                 </td>
                 <td>
                     @if (item.IsIntensityMatch)
