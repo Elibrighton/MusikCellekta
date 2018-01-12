@@ -21,9 +21,22 @@ namespace MusikCellekta.Controllers
         }
 
         // GET: Songs
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //    return View(await _context.Songs.ToListAsync());
+        //}
+
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Songs.ToListAsync());
+            var songs = from s in _context.Songs
+                         select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                songs = songs.Where(s => s.Artist.Contains(searchString) || s.Title.Contains(searchString));
+            }
+
+            return View(await songs.ToListAsync());
         }
 
         // GET: Songs/Details/5
