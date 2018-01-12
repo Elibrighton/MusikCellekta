@@ -11,5 +11,6 @@ namespace MusikCellekta.Models.CellektaViewModels
         public bool IsIntensityMatch { get; set; }
         public bool IsYearMatch { get; set; }
         public bool IsGenreMatch { get; set; }
+        public int MatchedCount { get; set; }
     }
 }
