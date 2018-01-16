@@ -12,12 +12,6 @@ namespace MusikCellekta.Data
         {
             context.Database.EnsureCreated();
 
-            // Look for any students.
-            if (context.Songs.Any())
-            {
-                return;   // DB has been seeded
-            }
-
             var songs = new Song[]
             {
                 // Dance 1
@@ -289,12 +283,25 @@ namespace MusikCellekta.Data
                 new Song{Artist = "Curtis Mayfield", Title = "Pusherman (LQ)", Bpm = 126, Key = "4A", Intensity = 3, Year = 1988, Disc = "Soul 1", Track = 13, Genre = "Soul"},
                 new Song{Artist = "Aretha Franklin", Title = "Freeway Of Love (LQ)", Bpm = 126, Key = "7A", Intensity = 6, Year = 1985, Disc = "Soul 1", Track = 14, Genre = "Soul"},
                 new Song{Artist = "Earth, Wind & Fire", Title = "September (LQ)", Bpm = 127, Key = "11B", Intensity = 6, Year = 1971, Disc = "Soul 1", Track = 15, Genre = "Soul"},
-                new Song{Artist = "James Brown", Title = "Papa's Got A Brand New Bag (LQ)", Bpm = 130, Key = "9A", Intensity = 4, Year = 1966, Disc = "Soul 1", Track = 16, Genre = "Soul"},
+                new Song{Artist = "James Brown", Title = "Papa's Got A Brand New Bag (LQ)", Bpm = 130, Key = "9A", Intensity = 4, Year = 1966, Disc = "Soul 1", Track = 16, Genre = "Soul"}
             };
 
             foreach (Song s in songs)
             {
-                context.Songs.Add(s);
+                var song = context.Songs.SingleOrDefault(m => m.Artist == s.Artist && 
+                    m.Title == s.Title &&
+                    m.Bpm == s.Bpm &&
+                    m.Key == s.Key &&
+                    m.Intensity == s.Intensity &&
+                    m.Year == s.Year &&
+                    m.Disc == s.Disc &&
+                    m.Track == s.Track &&
+                    m.Genre == s.Genre);
+
+                if (song == null)
+                {
+                    context.Songs.Add(s);
+                }
             }
 
             context.SaveChanges();
