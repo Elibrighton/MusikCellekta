@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace MusikCellekta.Models.CellektaViewModels
 {
-    public class SongData : Song
+    public class SongData
     {
+        public Song Song { get; set; }
         public bool IsKeyMatch { get; set; }
         public bool IsIntensityMatch { get; set; }
         public bool IsYearMatch { get; set; }

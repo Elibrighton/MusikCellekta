@@ -112,62 +112,62 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Artist)
+                    @Html.DisplayFor(modelItem => item.Song.Artist)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Title)
+                    @Html.DisplayFor(modelItem => item.Song.Title)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Bpm)
+                    @Html.DisplayFor(modelItem => item.Song.Bpm)
                 </td>
                 <td>
                     @if (item.IsKeyMatch)
                     {
-                        <b>@Html.DisplayFor(modelItem => item.Key)</b>
+                        <b>@Html.DisplayFor(modelItem => item.Song.Key)</b>
                     }
                     else
                     {
-                        @Html.DisplayFor(modelItem => item.Key)
+                        @Html.DisplayFor(modelItem => item.Song.Key)
                     }
                 </td>
                 <td>
                     @if (item.IsIntensityMatch)
                     {
-                        <b>@Html.DisplayFor(modelItem => item.Intensity)</b>
+                        <b>@Html.DisplayFor(modelItem => item.Song.Intensity)</b>
                     }
                     else
                     {
-                        @Html.DisplayFor(modelItem => item.Intensity)
+                        @Html.DisplayFor(modelItem => item.Song.Intensity)
                     }
                 </td>
                 <td>
                     @if (item.IsYearMatch)
                     {
-                        <b>@Html.DisplayFor(modelItem => item.Year)</b>
+                        <b>@Html.DisplayFor(modelItem => item.Song.Year)</b>
                     }
                     else
                     {
-                        @Html.DisplayFor(modelItem => item.Year)
+                        @Html.DisplayFor(modelItem => item.Song.Year)
                     }
                 </td>
                 <td>
                     @if (item.IsGenreMatch)
                     {
-                        <b>@Html.DisplayFor(modelItem => item.Genre)</b>
+                        <b>@Html.DisplayFor(modelItem => item.Song.Genre)</b>
                     }
                     else
                     {
-                        @Html.DisplayFor(modelItem => item.Genre)
+                        @Html.DisplayFor(modelItem => item.Song.Genre)
                     }
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Disc)
+                    @Html.DisplayFor(modelItem => item.Song.Disc)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Track)
+                    @Html.DisplayFor(modelItem => item.Song.Track)
                 </td>
                 <td>
-                    <a asp-action="Select" asp-route-id="@item.ID">Select</a>
+                    <a asp-action="Select" asp-route-id="@item.Song.ID">Select</a>
                 </td>
             </tr>
         }

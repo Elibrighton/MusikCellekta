@@ -181,6 +181,16 @@ namespace MusikCellekta.Controllers
                 return NotFound();
             }
 
+            // save song selection into History
+            var history = new History
+            {
+                Created = DateTime.Now,
+                SongID = selectData.SongSelection.ID
+            };
+
+            _context.Add(history);
+            await _context.SaveChangesAsync();
+
             var matchingSongs = new List<SongData>();
             var songs = await _context.Songs.ToListAsync();
 
@@ -190,19 +200,8 @@ namespace MusikCellekta.Controllers
                 {
                     if (IsBpmInRange(song.Bpm, selectData.SongSelection.Bpm))
                     {
-                        var songData = new SongData
-                        {
-                            ID = song.ID,
-                            Artist = song.Artist,
-                            Bpm = song.Bpm,
-                            Disc = song.Disc,
-                            Genre = song.Genre,
-                            Intensity = song.Intensity,
-                            Key = song.Key,
-                            Title = song.Title,
-                            Track = song.Track,
-                            Year = song.Year
-                        };
+                        var songData = new SongData{};
+                        songData.Song = song;
 
                         songData.IsGenreMatch = IsGenreMatch(song.Genre, selectData.SongSelection.Genre);
                         songData.IsYearMatch = IsYearMatch(song.Year, selectData.SongSelection.Year);
@@ -221,7 +220,7 @@ namespace MusikCellekta.Controllers
                 }
             }
 
-            selectData.MatchingSongs = matchingSongs.OrderByDescending(a => a.MatchedCount).ThenBy(a => a.Year).ToList();
+            selectData.MatchingSongs = matchingSongs.OrderByDescending(a => a.MatchedCount).ThenBy(a => a.Song.Year).ToList();
 
             return View(selectData);
         }

@@ -14,10 +14,12 @@ namespace MusikCellekta.Data
         }
 
         public DbSet<Song> Songs { get; set; }
+        public DbSet<History> Histories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Song>().ToTable("Song");
+            modelBuilder.Entity<History>().ToTable("History");
         }
     }
 }
