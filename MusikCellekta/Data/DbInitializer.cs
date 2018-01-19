@@ -1,4 +1,5 @@
-﻿using MusikCellekta.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using MusikCellekta.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace MusikCellekta.Data
         public static void Initialize(CellektaContext context)
         {
             context.Database.EnsureCreated();
+            context.Database.Migrate();
 
             var songs = new Song[]
             {
