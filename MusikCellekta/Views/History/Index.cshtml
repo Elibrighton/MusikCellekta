@@ -21,6 +21,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Song.Title)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Song.Bpm)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -35,6 +38,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Song.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Song.Bpm)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
